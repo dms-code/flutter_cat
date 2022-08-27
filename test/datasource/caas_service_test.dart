@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   
-group("CAAS Service", () {
+group("CAAS", () {
   test('Fetch a Random Gif from Caas Service ', () async {
 
         final filter = CaasDTO.filter(CaasType.gif);

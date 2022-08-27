@@ -1,4 +1,4 @@
-import 'package:flutter_cat/datasource/response.dart';
+import 'package:flutter_cat/util/response.dart';
 
 abstract class DataSource<T>{
 

@@ -11,6 +11,12 @@
             "type": "dart"
         },
         {
+            "name": "All Tests",
+            "request": "launch",
+            "program": "test/",
+            "type": "dart"
+        },
+        {
             "name": "flutter_cat (profile mode)",
             "request": "launch",
             "type": "dart",

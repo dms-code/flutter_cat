@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_cat/datasource/data_source.dart';
 import 'package:flutter_cat/datasource/remote/caas_dto.dart';
-import '../response.dart';
+import '../../util/response.dart';
 
 import 'package:http/http.dart' as http;
 
