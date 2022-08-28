@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/model/cat_menu_item.dart';
+import 'package:flutter_cat/ui/view/gif_view.dart';
 import '../ui/widget/bottom_menu_item.dart';
 
 class AppViewPresenter {
@@ -22,7 +23,7 @@ class AppViewPresenter {
 
      switch(selectedItem.view){
        case UIView.gif:
-         return Center(child: Container( width: 300, height: 300, color: Colors.red));
+         return const Center(child:GifView());
        case UIView.giflist:
          return Container( width: 300, height: 300, color: Colors.white);
        case UIView.about:

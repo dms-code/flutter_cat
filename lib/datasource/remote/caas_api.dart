@@ -21,30 +21,34 @@ class CaasAPI extends DataSource<CaasDTO>{
       url += "?json=true";
     }
 
-    var response = await http.get(Uri.parse(url));
+    try {
+      var response = await http.get(Uri.parse(url));
 
-    if(response.statusCode == 200){
-
-      try {
-
-          var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      if (response.statusCode == 200) {
+        try {
+          var decodedResponse = jsonDecode(
+              utf8.decode(response.bodyBytes)) as Map;
 
           decodedResponse["type"] = filter.type;
-          decodedResponse["url"] = "https://cataas.com/${decodedResponse["url"]}";
+          decodedResponse["url"] =
+          "https://cataas.com${decodedResponse["url"]}";
 
           return Response<CaasDTO>(CaasDTO(decodedResponse));
-          
-      } on Exception {
-
-        return Response<CaasDTO>.error("An error occurred to parse data from the CAAS service. Reponse: ${response.body}");
-
+        } on Exception {
+          return Response<CaasDTO>.error(
+              "An error occurred to parse data from the CAAS service. Response: ${response
+                  .body}");
+        }
       }
+      else {
+        return Response<CaasDTO>.error(
+            "An error occurred to fetch data from the CAAS service. Status Code: ${response.statusCode}");
+      }
+    } on Exception{
+      return Response<CaasDTO>.error(
+          "An error occurred to fetch data from the CAAS service.");
     }
-    else{
 
-      return Response<CaasDTO>.error("An error occurred to fetch data from the CAAS service. Status Code: ${response.statusCode}");
-
-    }
   }
   
 
