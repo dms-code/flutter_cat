@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/model/cat_menu_item.dart';
-import 'package:flutter_cat/ui/view/gif_view.dart';
+import 'package:flutter_cat/ui/view/gif_view_part.dart';
+import 'package:flutter_cat/ui/view/recent_view_part.dart';
 import '../ui/widget/bottom_menu_item.dart';
 
 class AppViewPresenter {
@@ -9,6 +10,10 @@ class AppViewPresenter {
 
   AppViewPresenter(){
     _items = [];
+  }
+
+  bool menuCreated(){
+    return !_items!.isEmpty;
   }
 
   void addMenuItem(String icon, UIView view, GestureTapCallback callback, bool isSelected){
@@ -23,9 +28,9 @@ class AppViewPresenter {
 
      switch(selectedItem.view){
        case UIView.gif:
-         return const Center(child:GifView());
-       case UIView.giflist:
-         return Container( width: 300, height: 300, color: Colors.white);
+         return const GifViewPart();
+       case UIView.recent:
+         return const RecentViewPart();
        case UIView.about:
          return Container( width: 300, height: 300, color: Colors.white);
 

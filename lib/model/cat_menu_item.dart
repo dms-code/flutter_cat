@@ -1,7 +1,7 @@
 
 import 'package:flutter/widgets.dart';
 
-enum UIView { gif, giflist, about }
+enum UIView { gif, recent, about }
 
 class CatMenuItem {
 

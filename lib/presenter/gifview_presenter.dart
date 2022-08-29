@@ -11,12 +11,11 @@ class GifViewPresenter {
 
   bool isLoading = false;
   late CatGifRepository _repository;
+  final List<CatGif> _recent = [];
 
-  GifViewPresenter(){
+  GifViewPresenter(this._repository);
 
-    _repository = CatGifRepository();
-
-  }
+  List<CatGif> getRecent() => _recent;
 
   Future<Response<Uint8List>> getRandomCat() async{
 
@@ -24,6 +23,9 @@ class GifViewPresenter {
 
      if(!resp.hasError()){
        try{
+
+         _recent.add(resp.getValue()!);
+
          var gifRawData = await http.get(Uri.parse(resp.getValue()!.url));
 
          if(gifRawData.statusCode == 200) {

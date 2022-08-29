@@ -12,17 +12,18 @@ class CaasAPI extends DataSource<CaasDTO>{
   
   @override
   Future<Response<CaasDTO>> get(CaasDTO filter) async {
-    String url = _apiBaseUrl;
+
+    StringBuffer url = StringBuffer(_apiBaseUrl);
 
     if(filter.type == CaasType.gif){
-      url += "/gif?json=true";
+      url.write("/gif?json=true");
     }
     else{
-      url += "?json=true";
+      url.write("?json=true");
     }
 
     try {
-      var response = await http.get(Uri.parse(url));
+      var response = await http.get(Uri.parse(url.toString()));
 
       if (response.statusCode == 200) {
         try {

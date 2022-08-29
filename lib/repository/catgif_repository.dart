@@ -9,16 +9,14 @@ import '../util/response.dart';
 
 class CatGifRepository implements Repository<CatGif>{
   
-  late DataSource<CaasDTO> _remoteCaasSevice;
+  late DataSource<CaasDTO> _remoteCaasService;
 
-  CatGifRepository(){
-    _remoteCaasSevice = CaasAPI();
-  }
+  CatGifRepository(this._remoteCaasService);
   
   @override
   Future<Response<CatGif>> get() async {
     
-    Response<CaasDTO> response =  await _remoteCaasSevice.get(CaasDTO.filter(CaasType.gif));
+    Response<CaasDTO> response =  await _remoteCaasService.get(CaasDTO.filter(CaasType.gif));
 
     if(!response.hasError() && response.getValue() != null){
 
