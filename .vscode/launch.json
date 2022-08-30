@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "flutter_cat",
+            "name": "Launch",
             "request": "launch",
             "program": "lib/ui/view/main.dart",
             "type": "dart"
@@ -17,13 +17,13 @@
             "type": "dart"
         },
         {
-            "name": "flutter_cat (profile mode)",
+            "name": "Profile",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "flutter_cat (release mode)",
+            "name": "Release",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
