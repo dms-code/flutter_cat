@@ -5,12 +5,13 @@ import 'package:flutter_cat/ui/widget/injector_widget.dart';
 
 void main() async {
 
+  //Dependency Injection of Presenters and Services
   InjectorWidget injector = InjectorWidget(child: const MyApp());
 
   await injector.init();
 
   runApp(injector);
-  
+
 }
 
 class MyApp extends StatelessWidget {

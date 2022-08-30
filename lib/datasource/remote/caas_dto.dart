@@ -1,9 +1,12 @@
 
+// Type available in the api CAAS
 enum CaasType{
   image,
   gif
 }
 
+
+/// A object that represent the CAAS api data model
 class CaasDTO {
 
   String? id;

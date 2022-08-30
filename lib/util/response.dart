@@ -1,4 +1,6 @@
 
+/// A helper class that holds a model or error message
+/// Should be used in any kind of network operation
 class Response<T>{
 
   T? _value;

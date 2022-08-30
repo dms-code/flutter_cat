@@ -60,7 +60,7 @@ class _GifViewPartState extends State<StatefulWidget> {
     widgets.add(_imageView);
     widgets.add(const SizedBox(height: 50));
 
-    if (!_presenter.isLoading) {
+    if (!_presenter.isLoading && _presenter.getRecent().isNotEmpty) {
       widgets.add(RefreshButton(onPressed: _refreshGif));
     }
 

@@ -6,7 +6,8 @@ import 'package:flutter_cat/repository/catgif_repository.dart';
 import 'package:flutter_cat/util/response.dart';
 import 'package:http/http.dart' as http;
 
-
+/// The presenter that intermediate communication between
+/// the [GifViewPart][RecentViewPart] with the reposity [CatGifRepository] 
 class GifViewPresenter {
 
   bool isLoading = false;
@@ -17,6 +18,8 @@ class GifViewPresenter {
 
   List<CatGif> getRecent() => _recent;
 
+
+  /// Get a random gif cat image from [CatGifRepository]
   Future<Response<Uint8List>> getRandomCat() async{
 
     Response<CatGif> resp = await _repository.get();

@@ -4,6 +4,7 @@ import 'package:flutter_cat/ui/view/gif_view_part.dart';
 import 'package:flutter_cat/ui/view/recent_view_part.dart';
 import '../ui/widget/bottom_menu_item.dart';
 
+/// The presenter class used by the main user interface and keeps information about the app menu
 class AppViewPresenter {
 
   List<CatMenuItem>? _items;

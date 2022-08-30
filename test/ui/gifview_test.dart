@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/ui/view/gif_view_part.dart';
 import 'package:flutter_cat/ui/widget/injector_widget.dart';
-import 'package:flutter_cat/ui/widget/refresh_button.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -13,7 +12,7 @@ void main() {
 
       await tester.pumpWidget(injector);
 
-      var refButton = find.byType(RefreshButton);
+      var refButton = find.byType(Image);
       
       expect(refButton, findsOneWidget);
 
