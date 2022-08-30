@@ -19,36 +19,30 @@ class _ImageLoaderState extends State<ImageLoader> {
   late Widget _currentView;
   bool _loaded = false;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+      @override
+      Widget build(BuildContext context) {
 
-  @override
-  Widget build(BuildContext context) {
+         if(!_loaded) {
+            _currentView = widget.progressIndicator;
 
-    if(!_loaded) {
-      _currentView = widget.progressIndicator;
+            http.get(Uri.parse(widget.url)).then((value) =>
+            {
+              if(mounted){
+                setState(() {
+                  _loaded = true;
+                  if (value.statusCode == 200) {
+                    _currentView =
+                        Image.memory(value.bodyBytes, width: 300, height: 200,);
+                  }
+                  else {
+                    _currentView = widget.errorIndicator;
+                  }
+                })
+              }
+            });
+         }
 
-      http.get(Uri.parse(widget.url)).then((value) =>
-      {
-        if(mounted){
-          setState(() {
-            _loaded = true;
-            if (value.statusCode == 200) {
-              _currentView =
-                  Image.memory(value.bodyBytes, width: 300, height: 200,);
-            }
-            else {
-              _currentView = widget.errorIndicator;
-            }
-          })
-        }
-      });
+         return _currentView;
+      }
 
-    }
-
-    return _currentView;
-
-  }
 }
