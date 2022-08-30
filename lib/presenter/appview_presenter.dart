@@ -13,7 +13,7 @@ class AppViewPresenter {
   }
 
   bool menuCreated(){
-    return !_items!.isEmpty;
+    return _items!.isNotEmpty;
   }
 
   void addMenuItem(String icon, UIView view, GestureTapCallback callback, bool isSelected){

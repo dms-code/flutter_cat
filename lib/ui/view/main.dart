@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/ui/view/app_view.dart';
-import 'package:flutter_cat/ui/widget/InjectorWidget.dart';
+import 'package:flutter_cat/ui/widget/injector_widget.dart';
 
 void main() async {
 
@@ -10,6 +10,7 @@ void main() async {
   await injector.init();
 
   runApp(injector);
+  
 }
 
 class MyApp extends StatelessWidget {

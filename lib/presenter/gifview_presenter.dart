@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 class GifViewPresenter {
 
   bool isLoading = false;
-  late CatGifRepository _repository;
+  late final CatGifRepository _repository;
   final List<CatGif> _recent = [];
 
   GifViewPresenter(this._repository);

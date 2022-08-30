@@ -1,6 +1,5 @@
 
 import 'package:flutter_cat/datasource/data_source.dart';
-import 'package:flutter_cat/datasource/remote/caas_api.dart';
 import 'package:flutter_cat/datasource/remote/caas_dto.dart';
 import 'package:flutter_cat/model/cat_gif.dart';
 import 'package:flutter_cat/repository/repository.dart';
@@ -9,7 +8,7 @@ import '../util/response.dart';
 
 class CatGifRepository implements Repository<CatGif>{
   
-  late DataSource<CaasDTO> _remoteCaasService;
+  late final DataSource<CaasDTO> _remoteCaasService;
 
   CatGifRepository(this._remoteCaasService);
   
