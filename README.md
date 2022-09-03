@@ -4,8 +4,6 @@ Flutter app that consumes the CAAS API https://cataas.com/cat.
 
 Architecture: MVP Model-View-Presenter with repository pattern.
 
-Azumo Inc assessment test.
-
 Demo: https://github.com/dms-code/flutter_cat/blob/master/app.mp4
 
 ## System Requirements
