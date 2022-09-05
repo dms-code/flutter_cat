@@ -17,10 +17,20 @@ class CatViewPresenter {
 
   List<Cat> getRecent() => _recent;
 
-  Cat getFilter() => _filter;
+  String? getTag() => _filter.tag;
+  String? getLabel() => _filter.label;
+  CatType getType() => _filter.type;
 
-  void setFilter(Cat filter) {
-    _filter = filter;
+  void setLabel(String label){
+    _filter.label = label;
+  }
+  
+  void setTag(String tag){
+    _filter.tag = tag;
+  }
+
+  void setImageType(bool gif){
+     _filter.type = gif ? CatType.gif : CatType.image;
   }
 
   CatViewPresenter(CatRepository repository) {

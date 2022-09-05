@@ -65,19 +65,16 @@ class _CatViewPartState extends State<StatefulWidget> {
     widgets.add(const SizedBox(height: 50));
 
     if ((!_presenter.isLoading && _presenter.getRecent().isNotEmpty) || hasError) {
-      Cat cat = _presenter.getFilter();
-
+      
       // Image Type selector
       widgets.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         const Text("Only Gif"),
         Checkbox(
             activeColor: Colors.purple,
-            value: cat.type == CatType.gif,
+            value: _presenter.getType() == CatType.gif,
             onChanged: (bool? newValue) {
               setState(() {
-                Cat cat = _presenter.getFilter();
-                cat.type = newValue! ? CatType.gif : CatType.image;
-                _presenter.setFilter(cat);
+                _presenter.setImageType(newValue!);
               });
             })
       ]));
@@ -85,10 +82,12 @@ class _CatViewPartState extends State<StatefulWidget> {
       // Tag filter
       TextEditingController tagController = TextEditingController();
 
-      if (cat.tag != null) {
-        tagController.text = cat.tag!;
+      String? tag = _presenter.getTag();
+
+      if (tag != null) {
+        tagController.text = tag!;
         tagController.selection = TextSelection.fromPosition(
-          TextPosition(offset: cat.tag!.length),
+          TextPosition(offset: tag!.length),
         );
       }
 
@@ -99,9 +98,7 @@ class _CatViewPartState extends State<StatefulWidget> {
             controller: tagController,
             onChanged: (String value) {
               setState(() {
-                Cat cat = _presenter.getFilter();
-                cat.tag = value;
-                _presenter.setFilter(cat);
+                _presenter.setTag(value);
               });
             },
             decoration: const InputDecoration(
@@ -118,10 +115,12 @@ class _CatViewPartState extends State<StatefulWidget> {
       // Label filter
       TextEditingController labelController = TextEditingController();
 
-      if (cat.label != null) {
-        labelController.text = cat.label!;
+      String? label = _presenter.getLabel();
+
+      if (label != null) {
+        labelController.text = label;
         labelController.selection = TextSelection.fromPosition(
-          TextPosition(offset: cat.label!.length),
+          TextPosition(offset: label.length),
         );
       }
 
@@ -132,9 +131,7 @@ class _CatViewPartState extends State<StatefulWidget> {
             controller: labelController,
             onChanged: (String value) {
               setState(() {
-                Cat cat = _presenter.getFilter();
-                cat.label = value;
-                _presenter.setFilter(cat);
+                _presenter.setLabel(value);
               });
             },
             decoration: const InputDecoration(
