@@ -69,7 +69,7 @@ class _CatViewPartState extends State<StatefulWidget> {
 
       // Image Type selector
       widgets.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("Image-Type: Gif"),
+        const Text("Only Gif"),
         Checkbox(
             activeColor: Colors.purple,
             value: cat.type == CatType.gif,
@@ -107,6 +107,11 @@ class _CatViewPartState extends State<StatefulWidget> {
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Tag',
+              floatingLabelStyle: TextStyle(color: Colors.purple),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1, color: Colors.purple),
+
+              )
             ),
           )));
 
@@ -135,6 +140,10 @@ class _CatViewPartState extends State<StatefulWidget> {
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Label',
+              floatingLabelStyle: TextStyle(color: Colors.purple),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1, color: Colors.purple),
+              )
             ),
           )));
 
