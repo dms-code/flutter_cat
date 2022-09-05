@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/ui/view/app_view.dart';
-import 'package:flutter_cat/ui/view/gif_view_part.dart';
+import 'package:flutter_cat/ui/view/cat_view_part.dart';
 import 'package:flutter_cat/ui/widget/bottom_menu_item.dart';
 import 'package:flutter_cat/ui/widget/injector_widget.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,7 +14,7 @@ void main() {
 
       await tester.pumpWidget(injector);
 
-      final gifView = find.byType(GifViewPart);
+      final gifView = find.byType(CatViewPart);
       final menu = find.byType(BottomMenuItem);
 
       expect(gifView, findsOneWidget);

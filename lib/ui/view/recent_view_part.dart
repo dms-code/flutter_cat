@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cat/model/cat_gif.dart';
-import 'package:flutter_cat/presenter/gifview_presenter.dart';
+import 'package:flutter_cat/model/cat.dart';
+import 'package:flutter_cat/presenter/cat_view_presenter.dart';
 import 'package:flutter_cat/ui/widget/injector_widget.dart';
 import 'package:flutter_cat/ui/widget/image_loader.dart';
 
@@ -12,7 +12,7 @@ class RecentViewPart extends StatefulWidget {
 }
 
 class _RecentViewPartState extends State<StatefulWidget> {
-  late GifViewPresenter _presenter;
+  late CatViewPresenter _presenter;
 
   @override
   void initState() {
@@ -21,9 +21,9 @@ class _RecentViewPartState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _presenter = InjectorWidget.of(context).gifViewPresenter();
+    _presenter = InjectorWidget.of(context).catViewPresenter();
 
-    List<CatGif> recentGifs = _presenter.getRecent();
+    List<Cat> recentGifs = _presenter.getRecent();
 
     return ListView.separated(
       padding: const EdgeInsets.only(top: 60),
@@ -42,7 +42,7 @@ class _RecentViewPartState extends State<StatefulWidget> {
               ),
               Center(
                   child: ImageLoader(
-                      url: recentGifs[index].url,
+                      url: recentGifs[index].url!,
                       progressIndicator: const Image(
                           image: AssetImage("assets/images/cat.gif"),
                           width: 300,
@@ -55,7 +55,7 @@ class _RecentViewPartState extends State<StatefulWidget> {
           );
         } else {
           return ImageLoader(
-              url: recentGifs[index].url,
+              url: recentGifs[index].url!,
               progressIndicator: const Image(
                   image: AssetImage("assets/images/cat.gif"),
                   width: 300,

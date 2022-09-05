@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/model/cat_menu_item.dart';
-import 'package:flutter_cat/ui/view/gif_view_part.dart';
+import 'package:flutter_cat/ui/view/cat_view_part.dart';
 import 'package:flutter_cat/ui/view/recent_view_part.dart';
 import '../ui/widget/bottom_menu_item.dart';
 
@@ -29,7 +29,7 @@ class AppViewPresenter {
 
      switch(selectedItem.view){
        case UIView.gif:
-         return const GifViewPart();
+         return const CatViewPart();
        case UIView.recent:
          return const RecentViewPart();
        case UIView.about:

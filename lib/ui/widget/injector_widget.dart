@@ -1,16 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_cat/datasource/remote/caas_api.dart';
 import 'package:flutter_cat/presenter/appview_presenter.dart';
-import 'package:flutter_cat/presenter/gifview_presenter.dart';
-import 'package:flutter_cat/repository/catgif_repository.dart';
+import '../../presenter/cat_view_presenter.dart';
+import '../../repository/cat_repository.dart';
 
 // ignore: must_be_immutable
 class InjectorWidget extends InheritedWidget {
 
   late CaasAPI _api;
-  late CatGifRepository _gifRepository;
+  late CatRepository _catRepository;
   late AppViewPresenter _appViewPresenter;
-  late GifViewPresenter _gifViewPresenter;
+  late CatViewPresenter _catViewPresenter;
 
   InjectorWidget({
     Key? key,
@@ -20,16 +20,16 @@ class InjectorWidget extends InheritedWidget {
   Future<void> init() async {
 
     _api = CaasAPI();
-    _gifRepository = CatGifRepository(_api);
+    _catRepository = CatRepository(_api);
     _appViewPresenter = AppViewPresenter();
-    _gifViewPresenter = GifViewPresenter(_gifRepository);
+    _catViewPresenter = CatViewPresenter(_catRepository);
 
   }
 
   CaasAPI api ()=> _api;
-  CatGifRepository gifRepository ()=> _gifRepository;
+  CatRepository catRepository ()=> _catRepository;
   AppViewPresenter appViewPresenter ()=> _appViewPresenter;
-  GifViewPresenter gifViewPresenter ()=> _gifViewPresenter;
+  CatViewPresenter catViewPresenter ()=> _catViewPresenter;
 
   static InjectorWidget of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<InjectorWidget>()!;
