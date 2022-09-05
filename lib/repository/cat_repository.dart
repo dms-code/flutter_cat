@@ -4,7 +4,7 @@ import 'package:flutter_cat/model/cat.dart';
 import 'package:flutter_cat/repository/repository.dart';
 import '../util/response.dart';
 
-/// The repository that holds gif information
+/// The repository class that handle the access to CAAS data source
 class CatRepository implements Repository<Cat>{
 
   late final DataSource<CaasDTO> _remoteCaasService;
@@ -22,7 +22,7 @@ class CatRepository implements Repository<Cat>{
 
       //Data Mapping from the DTO to the Model
       CaasDTO dto = response.getValue()!;
-      return Response<Cat>(Cat(url: dto.url!, type: dto.imageType! == CaasType.gif ? CatType.gif : CatType.image));
+      return Response<Cat>(dto.toCat());
 
     }
     else{

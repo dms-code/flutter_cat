@@ -62,6 +62,11 @@ class CaasDTO {
     }
   }
 
+  //Return a Cat model with DTO data
+  Cat toCat(){
+    return Cat(url: url!, type: imageType! == CaasType.gif ? CatType.gif : CatType.image);
+  }
+
   CaasDTO(Map jsonData) {
     id = jsonData["id"];
     url = jsonData["url"];

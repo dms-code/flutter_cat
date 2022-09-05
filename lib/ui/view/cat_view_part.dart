@@ -85,9 +85,9 @@ class _CatViewPartState extends State<StatefulWidget> {
       String? tag = _presenter.getTag();
 
       if (tag != null) {
-        tagController.text = tag!;
+        tagController.text = tag;
         tagController.selection = TextSelection.fromPosition(
-          TextPosition(offset: tag!.length),
+          TextPosition(offset: tag.length),
         );
       }
 
