@@ -11,11 +11,11 @@ class CatRepository implements Repository<Cat>{
 
   CatRepository(this._remoteCaasService);
 
-  /// Returns the gif url from the remote api
+  /// Return gif url from the remote api
   @override
   Future<Response<Cat>> get(Cat filter) async {
 
-    //Get gif data from the API
+    //Get gif data from API
     Response<CaasDTO> response =  await _remoteCaasService.get(CaasDTO.from(filter));
 
     if(!response.hasError() && response.getValue() != null){

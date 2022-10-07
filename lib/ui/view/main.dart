@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cat/model/cat.dart';
 import 'package:flutter_cat/ui/view/app_view.dart';
 import 'package:flutter_cat/ui/widget/injector_widget.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
 
@@ -10,7 +12,10 @@ void main() async {
 
   await injector.init();
 
-  runApp(injector);
+  runApp(MultiProvider(
+      providers: [Provider(create: (_) => Cat(type: CatType.gif))],
+      child: injector,
+    ),);
 
 }
 
