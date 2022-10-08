@@ -1,20 +1,24 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cat/model/cat.dart';
+import 'package:flutter_cat/presenter/appview_presenter.dart';
+import 'package:flutter_cat/presenter/cat_view_presenter.dart';
 import 'package:flutter_cat/ui/view/app_view.dart';
-import 'package:flutter_cat/ui/widget/injector_widget.dart';
+import 'package:flutter_cat/util/injector.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
 
   //Dependency Injection of Presenters and Services
-  InjectorWidget injector = InjectorWidget(child: const MyApp());
+  Injector injector = Injector();
 
   await injector.init();
 
   runApp(MultiProvider(
-      providers: [Provider(create: (_) => Cat(type: CatType.gif))],
-      child: injector,
+      providers: [
+        ChangeNotifierProvider<AppViewPresenter>(create: (_) => injector.appViewPresenter),
+        Provider<CatViewPresenter>(create: (_) => injector.catViewPresenter),
+      ],
+      child: const MyApp(),
     ),);
 
 }

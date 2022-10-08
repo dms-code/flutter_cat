@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/model/cat_menu_item.dart';
 import 'package:flutter_cat/presenter/appview_presenter.dart';
-import 'package:flutter_cat/ui/widget/injector_widget.dart';
+
+import 'package:provider/provider.dart';
 
 class AppView extends StatefulWidget {
   const AppView({Key? key}) : super(key: key);
@@ -13,29 +14,16 @@ class AppView extends StatefulWidget {
 
 class _AppViewState extends State<StatefulWidget>{
 
-  late AppViewPresenter _presenter;
   int bottomMenuSize = 105;
-
-  void _showGifView(){
-    setState(() {
-      _presenter.setMenuSelected(UIView.gif);
-    });
-  }
-
-  void _showListGifView(){
-    setState(() {
-      _presenter.setMenuSelected(UIView.recent);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
 
-    _presenter = InjectorWidget.of(context).appViewPresenter();
+    var presenter = context.read<AppViewPresenter>();
 
-    if(!_presenter.menuCreated()){
-      _presenter.addMenuItem("assets/images/cat.svg", UIView.gif, _showGifView, true);
-      _presenter.addMenuItem("assets/images/list.svg", UIView.recent, _showListGifView, false);
+    if(!presenter.menuCreated()){
+      presenter.addTabItem("assets/images/cat.svg", UIView.gif, () => presenter.setTabSelected(UIView.gif), true);
+      presenter.addTabItem("assets/images/list.svg", UIView.recent, () => presenter.setTabSelected(UIView.recent), false);
     }
 
     var size = MediaQuery.of(context).size;
@@ -49,7 +37,7 @@ class _AppViewState extends State<StatefulWidget>{
              Container(
               height: size.height - bottomMenuSize,
               color: Colors.white,
-              child: _presenter.getCurrentView(),
+              child: context.watch<AppViewPresenter>().tabContent,
              ),
              Container(
                decoration: const BoxDecoration(
@@ -61,7 +49,7 @@ class _AppViewState extends State<StatefulWidget>{
                    crossAxisAlignment: CrossAxisAlignment.end,
                    mainAxisAlignment: MainAxisAlignment.end,
                    textDirection: TextDirection.ltr,
-                   children: _presenter.getMenu()),
+                   children: presenter.getBottomTabMenu()),
              )
         ]));
           

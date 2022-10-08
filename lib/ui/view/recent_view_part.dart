@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/model/cat.dart';
 import 'package:flutter_cat/presenter/cat_view_presenter.dart';
-import 'package:flutter_cat/ui/widget/injector_widget.dart';
 import 'package:flutter_cat/ui/widget/image_loader.dart';
+
+import '../../datasource/remote/caas_api.dart';
+import '../../repository/cat_repository.dart';
 
 class RecentViewPart extends StatefulWidget {
   const RecentViewPart({Key? key}) : super(key: key);
@@ -21,7 +23,7 @@ class _RecentViewPartState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _presenter = InjectorWidget.of(context).catViewPresenter();
+    _presenter = CatViewPresenter(CatRepository(CaasAPI()));
 
     List<Cat> recentGifs = _presenter.getRecent();
 

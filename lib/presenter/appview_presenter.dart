@@ -5,59 +5,71 @@ import 'package:flutter_cat/ui/view/recent_view_part.dart';
 import '../ui/widget/bottom_menu_item.dart';
 
 /// The presenter class used by the main user interface and keeps information about the app menu
-class AppViewPresenter {
+class AppViewPresenter extends ChangeNotifier {
 
-  List<CatMenuItem>? _items;
+  Widget? _tabContent;
+  List<CatMenuItem>? _tabs;
 
   AppViewPresenter(){
-    _items = [];
+    _tabs = [];
   }
 
-  bool menuCreated(){
-    return _items!.isNotEmpty;
+  get tabContent => _tabContent;
+
+  bool menuCreated() => _tabs!.isNotEmpty;
+
+  // Add a new tab item to the bottom bar
+  void addTabItem(String icon, UIView view, GestureTapCallback callback, bool isSelected){
+
+    _tabs!.add(CatMenuItem(icon, view, callback, isSelected));
+
+    if(isSelected){
+      setTabContent(view);
+    }
   }
 
-  void addMenuItem(String icon, UIView view, GestureTapCallback callback, bool isSelected){
+  // Set the visible content on the content view area
+  void setTabContent(UIView view){
+      switch(view){
+            case UIView.gif:
+              _tabContent = const CatViewPart();
+              break;
+            case UIView.recent:
+              _tabContent = const RecentViewPart();
+              break;
+            case UIView.about:
+              _tabContent = Container( width: 300, height: 300, color: Colors.white);
+              break;
 
-    _items!.add(CatMenuItem(icon, view, callback, isSelected));
-
+          }
   }
 
-  Widget getCurrentView(){
+  // Set the active tab in the bottom menu
+  void setTabSelected(UIView view){
 
-     CatMenuItem selectedItem = _items!.firstWhere((element) => element.selected == true);
+     setTabContent(view);
 
-     switch(selectedItem.view){
-       case UIView.gif:
-         return const CatViewPart();
-       case UIView.recent:
-         return const RecentViewPart();
-       case UIView.about:
-         return Container( width: 300, height: 300, color: Colors.white);
+     _tabs?.forEach((element) {
 
-     }
+        if(element.view == view){
+          element.selected = true;
+        }else{
+          element.selected = false;
+        }
 
-  }
-
-  void setMenuSelected(UIView view){
-
-     _items?.forEach((element) {
-       if(element.view == view){
-         element.selected = true;
-       }
-       else
-       {
-         element.selected = false;
-       }
      });
 
+     notifyListeners();
+
   }
 
-  List<BottomMenuItem> getMenu(){
+
+  // Generate the Bottom Tab Menu widgets
+  List<BottomMenuItem> getBottomTabMenu(){
 
     List<BottomMenuItem> menuItems = [];
 
-    _items?.forEach((element) {
+    _tabs?.forEach((element) {
 
       menuItems.add(BottomMenuItem(icon: element.icon, active: element.selected, onTap: element.callback));
 

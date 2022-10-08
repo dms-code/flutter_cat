@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cat/datasource/remote/caas_api.dart';
 import 'package:flutter_cat/presenter/cat_view_presenter.dart';
-import 'package:flutter_cat/ui/widget/injector_widget.dart';
+import 'package:flutter_cat/repository/cat_repository.dart';
 import 'package:flutter_cat/ui/widget/refresh_button.dart';
 import '../../model/cat.dart';
 
@@ -57,7 +58,8 @@ class _CatViewPartState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _presenter = InjectorWidget.of(context).catViewPresenter();
+    
+    _presenter = CatViewPresenter(CatRepository(CaasAPI()));
 
     List<Widget> widgets = [];
 
