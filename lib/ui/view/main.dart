@@ -16,7 +16,7 @@ void main() async {
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider<AppViewPresenter>(create: (_) => injector.appViewPresenter),
-        Provider<CatViewPresenter>(create: (_) => injector.catViewPresenter),
+        ChangeNotifierProvider<CatViewPresenter>(create: (_) => injector.catViewPresenter),
       ],
       child: const MyApp(),
     ),);

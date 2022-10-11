@@ -1,14 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_cat/presenter/appview_presenter.dart';
 import 'package:flutter_cat/presenter/cat_view_presenter.dart';
 import 'package:flutter_cat/ui/view/cat_view_part.dart';
-import 'package:flutter_cat/ui/view/main.dart';
-import 'package:flutter_cat/ui/widget/bottom_menu_item.dart';
+import 'package:flutter_cat/ui/widget/image_loader.dart';
 import 'package:flutter_cat/util/injector.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-    testWidgets('Test the main AppView', (tester) async {
+    testWidgets('Test the GifView', (tester) async {
 
       Injector injector = Injector();
       
@@ -19,14 +19,15 @@ void main() {
             ChangeNotifierProvider<AppViewPresenter>(create: (_) => injector.appViewPresenter),
             ChangeNotifierProvider<CatViewPresenter>(create: (_) => injector.catViewPresenter),
           ],
-          child: const MyApp(),
+          child: const MaterialApp(home: CatViewPart()),
       ));
 
-      final gifView = find.byType(CatViewPart);
-      final menu = find.byType(BottomMenuItem);
-
-      expect(gifView, findsOneWidget);
-      expect(menu, findsWidgets);
       
+
+      var refButton = find.byType(ImageLoader);
+      
+      expect(refButton, findsNothing);
+
+
     });
 }

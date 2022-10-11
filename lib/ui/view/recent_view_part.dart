@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cat/model/cat.dart';
 import 'package:flutter_cat/presenter/cat_view_presenter.dart';
 import 'package:flutter_cat/ui/widget/image_loader.dart';
-
-import '../../datasource/remote/caas_api.dart';
-import '../../repository/cat_repository.dart';
+import 'package:provider/provider.dart';
 
 class RecentViewPart extends StatefulWidget {
   const RecentViewPart({Key? key}) : super(key: key);
@@ -14,7 +12,6 @@ class RecentViewPart extends StatefulWidget {
 }
 
 class _RecentViewPartState extends State<StatefulWidget> {
-  late CatViewPresenter _presenter;
 
   @override
   void initState() {
@@ -23,9 +20,8 @@ class _RecentViewPartState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _presenter = CatViewPresenter(CatRepository(CaasAPI()));
 
-    List<Cat> recentGifs = _presenter.getRecent();
+    List<Cat> recentGifs = context.read<CatViewPresenter>().getRecent();
 
     return ListView.separated(
       padding: const EdgeInsets.only(top: 60),

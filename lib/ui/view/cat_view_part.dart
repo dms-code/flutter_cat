@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cat/datasource/remote/caas_api.dart';
 import 'package:flutter_cat/presenter/cat_view_presenter.dart';
-import 'package:flutter_cat/repository/cat_repository.dart';
+import 'package:flutter_cat/ui/widget/image_loader.dart';
 import 'package:flutter_cat/ui/widget/refresh_button.dart';
+import 'package:provider/provider.dart';
 import '../../model/cat.dart';
 
 class CatViewPart extends StatefulWidget {
@@ -13,43 +13,18 @@ class CatViewPart extends StatefulWidget {
 }
 
 class _CatViewPartState extends State<StatefulWidget> {
-  late CatViewPresenter _presenter;
-  late Widget _imageView;
-  bool hasError = false;
+
+  final Image _progressIndicator = const Image(image: AssetImage("assets/images/cat.gif"), width:300, height: 200,);
+  final Image _errorIndicator = const Image(image: AssetImage("assets/images/error.gif"), width:300, height: 200,);
 
   void _refreshGif() {
-    setState(() {
-      _presenter.isLoading = true;
-      _imageView = const Image(
-          image: AssetImage("assets/images/cat.gif"), width: 300, height: 200);
-
-      _presenter.getRandomCat().then((gif) => {
-        _presenter.isLoading = false,
-        if (mounted)
-          {
-            setState(() {
-              if (!gif.hasError()) {
-                hasError = false;
-                _imageView =
-                    Image.memory(gif.getValue()!, width: 300, height: 200);
-              } else {
-                hasError = true;
-                _imageView = const Image(
-                    image: AssetImage("assets/images/error.gif"),
-                    width: 300,
-                    height: 200);
-              }
-            })
-          }
-      });
-    });
+    CatViewPresenter presenter = context.read<CatViewPresenter>();
+    presenter.getRandomCat();
   }
 
   @override
   void initState() {
     super.initState();
-
-    _imageView = const Image(image: AssetImage("assets/images/cat.gif"));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _refreshGif();
@@ -58,102 +33,114 @@ class _CatViewPartState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    
-    _presenter = CatViewPresenter(CatRepository(CaasAPI()));
+
+  
+    CatViewPresenter presenter = context.read<CatViewPresenter>();
+    bool? isLoading = context.watch<CatViewPresenter>().isLoading;
 
     List<Widget> widgets = [];
 
-    widgets.add(_imageView);
-    widgets.add(const SizedBox(height: 50));
+    if (isLoading != null) {
+      if (isLoading) {
+        widgets.add(ImageLoader.fromMemory(
+            imageData: null,
+            progressIndicator: _progressIndicator,
+            errorIndicator: _errorIndicator,
+            hasError: false));
 
-    if ((!_presenter.isLoading && _presenter.getRecent().isNotEmpty) || hasError) {
-      
-      // Image Type selector
-      widgets.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("Only Gif"),
-        Checkbox(
-            activeColor: Colors.purple,
-            value: _presenter.getType() == CatType.gif,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _presenter.setImageType(newValue!);
-              });
-            })
-      ]));
+        widgets.add(const SizedBox(height: 50));
+      } else {
+        widgets.add(ImageLoader.fromMemory(
+            imageData: presenter.imageRawData,
+            progressIndicator:_progressIndicator,
+            errorIndicator: _errorIndicator,
+            hasError: presenter.errorMessage?.isNotEmpty));
 
-      // Tag filter
-      TextEditingController tagController = TextEditingController();
+        widgets.add(const SizedBox(height: 50));
 
-      String? tag = _presenter.getTag();
+        // Image Type selector
+        widgets.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const Text("Only Gif"),
+          Checkbox(
+              activeColor: Colors.purple,
+              value: presenter.getType == CatType.gif,
+              onChanged: (bool? newValue) {
+                setState(() {
+                  presenter.setImageType(newValue!);
+                });
+              })
+        ]));
 
-      if (tag != null) {
-        tagController.text = tag;
-        tagController.selection = TextSelection.fromPosition(
-          TextPosition(offset: tag.length),
-        );
+        // Tag filter
+        TextEditingController tagController = TextEditingController();
+
+        String? tag = presenter.getTag;
+
+        if (tag != null) {
+          tagController.text = tag;
+          tagController.selection = TextSelection.fromPosition(
+            TextPosition(offset: tag.length),
+          );
+        }
+
+        widgets.add(Container(
+            padding: const EdgeInsets.only(left: 50, right: 50, bottom: 10),
+            child: TextField(
+              cursorColor: Colors.purple,
+              controller: tagController,
+              onChanged: (String value) {
+                setState(() {
+                  presenter.setTag(value);
+                });
+              },
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Tag',
+                  floatingLabelStyle: TextStyle(color: Colors.purple),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: Colors.purple),
+                  )),
+            )));
+
+        // Label filter
+        TextEditingController labelController = TextEditingController();
+
+        String? label = presenter.getLabel;
+
+        if (label != null) {
+          labelController.text = label;
+          labelController.selection = TextSelection.fromPosition(
+            TextPosition(offset: label.length),
+          );
+        }
+
+        widgets.add(Container(
+            padding: const EdgeInsets.only(left: 50, right: 50, bottom: 10),
+            child: TextField(
+              cursorColor: Colors.purple,
+              controller: labelController,
+              onChanged: (String value) {
+                setState(() {
+                  presenter.setLabel(value);
+                });
+              },
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Label',
+                  floatingLabelStyle: TextStyle(color: Colors.purple),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: Colors.purple),
+                  )),
+            )));
+
+        widgets.add(RefreshButton(onPressed: _refreshGif));
       }
-
-      widgets.add(Container(
-          padding: const EdgeInsets.only(left: 50, right: 50, bottom: 10),
-          child: TextField(
-            cursorColor: Colors.purple,
-            controller: tagController,
-            onChanged: (String value) {
-              setState(() {
-                _presenter.setTag(value);
-              });
-            },
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Tag',
-              floatingLabelStyle: TextStyle(color: Colors.purple),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Colors.purple),
-
-              )
-            ),
-          )));
-
-      // Label filter
-      TextEditingController labelController = TextEditingController();
-
-      String? label = _presenter.getLabel();
-
-      if (label != null) {
-        labelController.text = label;
-        labelController.selection = TextSelection.fromPosition(
-          TextPosition(offset: label.length),
-        );
-      }
-
-      widgets.add(Container(
-          padding: const EdgeInsets.only(left: 50, right: 50, bottom: 10),
-          child: TextField(
-            cursorColor: Colors.purple,
-            controller: labelController,
-            onChanged: (String value) {
-              setState(() {
-                _presenter.setLabel(value);
-              });
-            },
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Label',
-              floatingLabelStyle: TextStyle(color: Colors.purple),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Colors.purple),
-              )
-            ),
-          )));
-
-      widgets.add(RefreshButton(onPressed: _refreshGif));
     }
 
     return Scaffold(
         body: Center(
             child: SingleChildScrollView(
-              child:
-              Center(child: Column(children: widgets)),
-            )));
+      child: Center(child: Column(children: widgets)),
+    )));
   }
 }
