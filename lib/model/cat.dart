@@ -20,13 +20,13 @@ enum CatFilter{
 class Cat {
 
   String? url;
-  String? tag;
-  String? label;
+  String tag;
+  String label;
   CatType type;
   CatFilter? filter;
   int? width;
   int? height;
 
-  Cat({this.url, required this.type});
+  Cat({this.url, required this.type, required this.tag, required this.label});
 
 }

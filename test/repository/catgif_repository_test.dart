@@ -1,19 +1,20 @@
-import 'package:flutter_cat/datasource/remote/caas_api.dart';
 import 'package:flutter_cat/model/cat.dart';
-import 'package:flutter_cat/repository/cat_repository.dart';
+import 'package:flutter_cat/util/injector.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   
-group("GIF Repository", () {
+group("Cat Repository", () {
   test('Request git from CaasService', () async {
+        Injector injector = Injector();
 
-        CatRepository(CaasAPI()).get(Cat(type:CatType.gif)).then((response) {
+        await injector.init();
+        
+        var response = await injector.catRepository.get(Cat(type:CatType.gif, tag: "cute", label: "azumo"));
           
-          expect(response.hasError(), false);
-          expect(response.getValue()!.url == "",  false);
-
-        });
+        expect(response.hasError(), false);
+        expect(response.getValue()!.url == "",  false);
+        
         
     });
 });

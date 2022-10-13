@@ -1,11 +1,12 @@
-import 'package:flutter_cat/datasource/remote/caas_api.dart';
-import 'package:flutter_cat/presenter/appview_presenter.dart';
+import '../datasource/remote/cataas_api.dart';
+import '../presenter/appview_presenter.dart';
 import '../presenter/cat_view_presenter.dart';
 import '../repository/cat_repository.dart';
+import 'package:dio/dio.dart';
 
 class Injector {
 
-  late CaasAPI _api;
+  late CataasAPI _api;
   late CatRepository _catRepository;
   late AppViewPresenter _appViewPresenter;
   late CatViewPresenter _catViewPresenter;
@@ -14,7 +15,26 @@ class Injector {
 
   Future<void> init() async {
 
-    _api = CaasAPI();
+    final dio = Dio(); // Provide a dio instance
+
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        handler.next(options);
+      },
+      onResponse: (e, handler) {
+        if(e.data is Map){
+          Map data = e.data;
+          data["baseURL"] = e.realUri.origin;
+        }
+
+        handler.next(e);
+      },
+      onError: (e, handler) {
+        handler.next(e);
+      },
+    ));
+
+    _api = CataasAPI(dio);
     _catRepository = CatRepository(_api);
     _appViewPresenter = AppViewPresenter();
     _catViewPresenter = CatViewPresenter(_catRepository);

@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/repository/cat_repository.dart';
 import 'package:http/http.dart' as http;
-
 import '../model/cat.dart';
 
 /// The presenter mediate communication between
@@ -37,7 +36,7 @@ class CatViewPresenter extends ChangeNotifier {
 
   CatViewPresenter(CatRepository repository) {
     _repository = repository;
-    _filter = Cat(type: CatType.gif);
+    _filter = Cat(type: CatType.gif, tag: "", label: "");
   }
 
   /// Get a random gif cat image from [CatRepository]

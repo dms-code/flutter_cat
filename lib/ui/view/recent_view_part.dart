@@ -48,7 +48,9 @@ class _RecentViewPartState extends State<StatefulWidget> {
                       errorIndicator: const Image(
                           image: AssetImage("assets/images/error.gif"),
                           width: 300,
-                          height: 200)))
+                          height: 200,
+                          ),
+                      hasError: false))
             ],
           );
         } else {
@@ -61,7 +63,8 @@ class _RecentViewPartState extends State<StatefulWidget> {
               errorIndicator: const Image(
                   image: AssetImage("assets/images/error.gif"),
                   width: 300,
-                  height: 200));
+                  height: 200),
+              hasError: false);
         }
       },
       separatorBuilder: (BuildContext context, int index) => const Divider(),

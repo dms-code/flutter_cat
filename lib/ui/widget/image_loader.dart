@@ -8,7 +8,7 @@ class ImageLoader extends StatefulWidget {
   final String? url;
   final Image progressIndicator;
   final Image errorIndicator;
-  final bool? hasError;
+  final bool hasError;
 
   const ImageLoader(
       {Key? key,
@@ -16,7 +16,7 @@ class ImageLoader extends StatefulWidget {
       this.imageData,
       required this.progressIndicator,
       required this.errorIndicator,
-      this.hasError})
+      required this.hasError})
       : super(key: key);
 
   const ImageLoader.fromMemory(
@@ -25,7 +25,7 @@ class ImageLoader extends StatefulWidget {
       this.url,
       required this.progressIndicator,
       required this.errorIndicator,
-      this.hasError})
+      required this.hasError})
       : super(key: key);
 
   @override
@@ -33,13 +33,19 @@ class ImageLoader extends StatefulWidget {
 }
 
 class _ImageLoaderState extends State<ImageLoader> {
+
+  late Widget _currentView;
   bool _loaded = false;
 
   @override
   Widget build(BuildContext context) {
+    
+    
+
     if (widget.url != null) {
+    
       if (!_loaded) {
-        Widget currentView = widget.progressIndicator;
+        _currentView = widget.progressIndicator;
 
         http.get(Uri.parse(widget.url!)).then((value) => {
               if (mounted)
@@ -47,30 +53,31 @@ class _ImageLoaderState extends State<ImageLoader> {
                   setState(() {
                     _loaded = true;
                     if (value.statusCode == 200) {
-                      currentView = Image.memory(
+                      _currentView = Image.memory(
                         value.bodyBytes,
                         width: 300,
                         height: 200,
                       );
                     } else {
-                      currentView = widget.errorIndicator;
+                      _currentView = widget.errorIndicator;
                     }
                   })
                 }
             });
-
-        return currentView;
       }
     } else if (widget.imageData != null) {
-      return Image.memory(
+      _currentView = Image.memory(
         widget.imageData!,
         width: 300,
         height: 200,
       );
-    } else if (widget.hasError!) {
-      return widget.errorIndicator;
+    } else if (widget.hasError) {
+      _currentView = widget.errorIndicator;
+    }
+    else{
+      _currentView = widget.progressIndicator;
     }
 
-    return widget.progressIndicator;
+    return _currentView;
   }
 }

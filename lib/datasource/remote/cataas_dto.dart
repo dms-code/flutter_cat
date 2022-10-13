@@ -1,13 +1,20 @@
 // Type available in the api CAAS
+import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_cat/model/cat.dart';
 
-enum CaasType { image, gif }
 
 /// A object that represent the CAAS api data model
-class CaasDTO {
+
+part 'cataas_dto.g.dart';
+
+enum CataasType { image, gif }
+
+@JsonSerializable(genericArgumentFactories: true)
+class CataasDTO {
   String? id;
+  String? baseURL;
   String? url;
-  CaasType? imageType;
+  CataasType? imageType;
   List<dynamic>? tags;
   String? createdAt;
   String? filter;
@@ -16,18 +23,18 @@ class CaasDTO {
   int? width;
   int? height;
 
-  CaasDTO.filter(this.imageType);
+  CataasDTO.filter(this.imageType);
 
   //Create a instance of [CaasDTO] using the [Cat] data
-  CaasDTO.from(Cat cat) {
+  CataasDTO.from(Cat cat) {
     url = cat.url;
 
     switch (cat.type) {
       case CatType.gif:
-        imageType = CaasType.gif;
+        imageType = CataasType.gif;
         break;
       case CatType.image:
-        imageType = CaasType.image;
+        imageType = CataasType.image;
         break;
     }
 
@@ -64,14 +71,18 @@ class CaasDTO {
 
   //Return a Cat model with DTO data
   Cat toCat(){
-    return Cat(url: url!, type: imageType! == CaasType.gif ? CatType.gif : CatType.image);
+    return Cat(
+      url: "${baseURL!}${url!}", 
+      type: imageType! == CataasType.gif ? CatType.gif : CatType.image,
+      tag: tag ?? "",
+      label: label ?? ""
+    );
   }
 
-  CaasDTO(Map jsonData) {
-    id = jsonData["id"];
-    url = jsonData["url"];
-    imageType = jsonData["type"];
-    tags = jsonData["tags"];
-    createdAt = jsonData["createdAt"];
-  }
+  CataasDTO();
+
+  factory CataasDTO.fromJson(Map<String, dynamic> json) => _$CataasDTOFromJson(json);
+  
+  Map<String, dynamic> toJson() => _$CataasDTOToJson(this);
+
 }

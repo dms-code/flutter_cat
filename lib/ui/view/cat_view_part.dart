@@ -54,7 +54,7 @@ class _CatViewPartState extends State<StatefulWidget> {
             imageData: presenter.imageRawData,
             progressIndicator:_progressIndicator,
             errorIndicator: _errorIndicator,
-            hasError: presenter.errorMessage?.isNotEmpty));
+            hasError: presenter.errorMessage?.isNotEmpty ?? false));
 
         widgets.add(const SizedBox(height: 50));
 
