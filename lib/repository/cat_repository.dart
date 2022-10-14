@@ -2,6 +2,7 @@ import 'package:flutter_cat/datasource/remote/cataas_api.dart';
 import 'package:flutter_cat/datasource/remote/cataas_dto.dart';
 import 'package:flutter_cat/model/cat.dart';
 import 'package:flutter_cat/repository/repository.dart';
+import 'package:logger/logger.dart';
 import '../util/response.dart';
 import 'package:dio/dio.dart' as dio;
 
@@ -9,8 +10,9 @@ import 'package:dio/dio.dart' as dio;
 class CatRepository implements Repository<Cat>{
 
   late final CataasAPI _remoteCaasService;
+  final Logger _logger;
 
-  CatRepository(this._remoteCaasService);
+  CatRepository(this._remoteCaasService, this._logger);
 
   /// Return gif url from the remote api
   @override
@@ -28,10 +30,13 @@ class CatRepository implements Repository<Cat>{
 
       dto.imageType = filter.type == CatType.image ? CataasType.image : CataasType.gif;
 
+      _logger.d(dto.toJson());
+
       //Data Mapping from the DTO to the Model
       return Response<Cat>(dto.toCat());
 
     } on dio.DioError catch(error){
+      _logger.d(error.message);
       return Response.error(error.message);
     }
   }

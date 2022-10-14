@@ -3,12 +3,14 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_cat/repository/cat_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import '../model/cat.dart';
 
 /// The presenter mediate communication between
 /// the [CatViewPart][RecentViewPart] with the repository [CatRepository]
 class CatViewPresenter extends ChangeNotifier {
 
+  final Logger _logger;
   late final CatRepository _repository;
   late Cat _filter;
   bool? isLoading;
@@ -34,7 +36,7 @@ class CatViewPresenter extends ChangeNotifier {
      _filter.type = gif ? CatType.gif : CatType.image;
   }
 
-  CatViewPresenter(CatRepository repository) {
+  CatViewPresenter(CatRepository repository, this._logger) {
     _repository = repository;
     _filter = Cat(type: CatType.gif, tag: "", label: "");
   }
@@ -58,12 +60,15 @@ class CatViewPresenter extends ChangeNotifier {
               imageRawData = gifRawData.bodyBytes;              
             } else {
               errorMessage = "Not able to download the gif from the url. Error: ${gifRawData.statusCode.toString()}";
+              _logger.e(errorMessage);
             }
           } on Exception {
             errorMessage = "Not able to download the gif from the url.";
+            _logger.e(errorMessage);
           }
         } else {
           errorMessage = "Not able to download the gif from the url.";
+          _logger.e(errorMessage);
         }
 
         notifyListeners();
