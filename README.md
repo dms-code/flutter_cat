@@ -1,6 +1,6 @@
 # FlutterCAT
 
-Flutter app that consumes the CAAS API https://cataas.com/cat.
+Flutter app that consumes the CATAAS API https://cataas.com/cat.
 
 Architecture: MVP Model-View-Presenter with repository pattern.
 
@@ -35,6 +35,7 @@ flutter pub get
 
 >Build and Running
 
+- `flutter pub run build_runner build`
 - `flutter build ios lib/ui/view/main.dart`
 - `flutter run lib/ui/view/main.dart my-ios`
 
@@ -47,6 +48,7 @@ flutter pub get
 
 >Build and Running
 
+- `flutter pub run build_runner build`
 - `flutter run lib/ui/view/main.dart -d my-android`
 
 #### Running Tests
