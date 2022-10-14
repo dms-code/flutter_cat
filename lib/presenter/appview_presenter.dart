@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cat/model/cat_menu_item.dart';
 import 'package:flutter_cat/ui/view/cat_view_part.dart';
 import 'package:flutter_cat/ui/view/recent_view_part.dart';
+import 'package:logger/logger.dart';
 import '../ui/widget/bottom_menu_item.dart';
 
 /// The presenter class used by the main user interface and keeps information about the app menu
 class AppViewPresenter extends ChangeNotifier {
 
+  final Logger _logger;
+
   Widget? _tabContent;
   List<CatMenuItem>? _tabs;
+  
 
-  AppViewPresenter(){
+  AppViewPresenter(this._logger){
     _tabs = [];
   }
 
@@ -46,6 +50,8 @@ class AppViewPresenter extends ChangeNotifier {
 
   // Set the active tab in the bottom menu
   void setTabSelected(UIView view){
+
+     _logger.d("setTabSelected: ${view.index}");
 
      setTabContent(view);
 

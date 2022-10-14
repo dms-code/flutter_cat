@@ -3,9 +3,12 @@ import '../presenter/appview_presenter.dart';
 import '../presenter/cat_view_presenter.dart';
 import '../repository/cat_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
+
 
 class Injector {
 
+  late Logger _logger;
   late CataasAPI _api;
   late CatRepository _catRepository;
   late AppViewPresenter _appViewPresenter;
@@ -34,10 +37,11 @@ class Injector {
       },
     ));
 
+    _logger = Logger(printer: PrettyPrinter(printEmojis: true));
     _api = CataasAPI(dio);
-    _catRepository = CatRepository(_api);
-    _appViewPresenter = AppViewPresenter();
-    _catViewPresenter = CatViewPresenter(_catRepository);
+    _catRepository = CatRepository(_api, _logger);
+    _appViewPresenter = AppViewPresenter(_logger);
+    _catViewPresenter = CatViewPresenter(_catRepository, _logger);
 
   }
 
